@@ -7,6 +7,9 @@ var searchformEl = document.querySelector('#searchForm');
 var searchButton = document.querySelector('#searchBtn');
 var currentDay = document.querySelector('#weather-container');
 var fiveDay = document.querySelector('#fiveDayForecast');
+var history = document.querySelector('#pastSearches');
+
+
 
 var formSubmission = function(event) {
     event.preventDefault();
@@ -56,5 +59,95 @@ var getWeather = function(lat, lon) {
 
 }
 
+var displayWeather = function(weather){
+    //wipes previous search results
+    currentDay.textContent = "";
+   
+    var currentWeather = weather.list[0];
+    var currentTemp = currentWeather.main.temp;
+    var currentHumidity = currentWeather.main.humidity;
+    var currentWind = currentWeather.wind.speed;
+    var currentIcon = currentWeather.weather[0].icon;
+    var currentIconUrl = "http://openweathermap.org/img/w/" + currentIcon + ".png";
+    var currentCity = weather.city.name;
+    var currentCountry = weather.city.country;
+    var currentDate = dayjs().format('MMMM D YYYY');
 
-    searchButton.addEventListener('click', formSubmission);
+    var currentWeatherEl = document.createElement('div');
+    currentWeatherEl.classList = 'card bg-light text-dark';
+
+    var currentHeaderEl = document.createElement('h3');
+    currentHeaderEl.classList = 'card-header';
+    currentHeaderEl.textContent = currentCity + ", " + currentCountry + " (" + currentDate + ")";
+    currentWeatherEl.appendChild(currentHeaderEl);
+
+    var currentBodyEl = document.createElement('div');
+    currentBodyEl.classList = 'card-body';
+    currentWeatherEl.appendChild(currentBodyEl);
+
+    var currentIconEl = document.createElement('img');
+    currentIconEl.setAttribute('src', currentIconUrl);
+    currentBodyEl.appendChild(currentIconEl);
+
+    var currentTempEl = document.createElement('p');
+    currentTempEl.classList = 'card-text';
+    currentTempEl.textContent = "Temperature: " + currentTemp + "°F";
+    currentBodyEl.appendChild(currentTempEl);
+
+    var currentHumidityEl = document.createElement('p');
+    currentHumidityEl.classList = 'card-text';
+    currentHumidityEl.textContent = "Humidity: " + currentHumidity + "%";
+    currentBodyEl.appendChild(currentHumidityEl);
+
+    var currentWindEl = document.createElement('p');
+    currentWindEl.classList = 'card-text';
+    currentWindEl.textContent = "Wind Speed: " + currentWind + " MPH";
+    currentBodyEl.appendChild(currentWindEl);
+
+    currentDay.appendChild(currentWeatherEl);
+
+    var fiveDayHeader = document.createElement('h3');
+    fiveDayHeader.textContent = "5-Day Forecast:";
+    currentDay.appendChild(fiveDayHeader);
+
+    var fiveDayRow = document.createElement('div');
+    fiveDayRow.classList = 'row';
+    currentDay.appendChild(fiveDayRow);
+
+    for (var i = 1; i < 6; i++) {
+        var fiveDayCol = document.createElement('div');
+        fiveDayCol.classList = 'col-md-2';
+        fiveDayRow.appendChild(fiveDayCol);
+
+        var fiveDayCard = document.createElement('div');
+        fiveDayCard.classList = 'card bg-primary text-light';
+        fiveDayCol.appendChild(fiveDayCard);
+
+        var fiveDayBody = document.createElement('div');
+        fiveDayBody.classList = 'card-body';
+        fiveDayCard.appendChild(fiveDayBody);
+
+        var fiveDayDate = document.createElement('h5');
+        fiveDayDate.classList = 'card-title';
+        fiveDayDate.textContent = dayjs().add(i, 'day').format('MMMM D YYYY');
+        fiveDayBody.appendChild(fiveDayDate);
+
+        var fiveDayIcon = document.createElement('img');
+        var fiveDayIconUrl = "http://openweathermap.org/img/w/" + weather.list[i].weather[0].icon + ".png";
+        fiveDayIcon.setAttribute('src', fiveDayIconUrl);
+        fiveDayBody.appendChild(fiveDayIcon);
+
+        var fiveDayTemp = document.createElement('p');
+        fiveDayTemp.classList = 'card-text';
+        fiveDayTemp.textContent = "Temp: " + weather.list[i].main.temp + "°F";
+        fiveDayBody.appendChild(fiveDayTemp);
+
+        var fiveDayHumidity = document.createElement('p');
+        fiveDayHumidity.classList = 'card-text';
+        fiveDayHumidity.textContent = "Humidity: " + weather.list[i].main.humidity + "%";
+        fiveDayBody.appendChild(fiveDayHumidity);
+    }
+}
+
+
+searchButton.addEventListener('click', formSubmission);
