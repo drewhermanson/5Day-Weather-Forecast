@@ -39,7 +39,6 @@
 
   .card{
     width: 80%;
-    
   }
 
   #content-box{
@@ -75,6 +74,8 @@
   }
  
   .pastSearches{
+    display:flex;
+    flex-direction: column;
     
   }
 

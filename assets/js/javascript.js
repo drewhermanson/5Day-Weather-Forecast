@@ -7,17 +7,37 @@ var searchformEl = document.querySelector('#searchForm');
 var searchButton = document.querySelector('#searchBtn');
 var currentDay = document.querySelector('#weather-container');
 var fiveDay = document.querySelector('#fiveDayForecast');
-var history = document.querySelector('#pastSearches');
+var historyEl = document.querySelector('.pastSearches');
+var pastSearchButtons = document.querySelectorAll('.pastSearches button');
 
+
+var loadHistory = function() {
+    var city = localStorage.getItem('city');
+
+    if (!city) {
+        return false;
+    }
+
+    var cityEl = document.createElement('button');
+    cityEl.setAttribute('type', 'button');
+    cityEl.setAttribute('data-city', city);
+    cityEl.textContent = city;
+    cityEl.addEventListener('click', prevSearchLoad); 
+    historyEl.appendChild(cityEl);
+}
+
+var prevSearchLoad = function(event) {
+    event.preventDefault();
+    var pastCity = event.target.getAttribute('data-city');
+    getGeoCode(pastCity);
+}
 
 
 var formSubmission = function(event) {
     event.preventDefault();
     var city = document.querySelector('#searchForm').value.trim();
-
+    searchformEl.value = "";
     if (city) {
-        localStorage.setItem('city', city);
-
         getGeoCode(city);
     } else {
         alert('Please enter a city name');
@@ -27,11 +47,17 @@ var formSubmission = function(event) {
 var getGeoCode = function(city) {
     var geoUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=d5d879a5a7dac48b5c30575d2453e07b";
    
-
     fetch(geoUrl).then(function (response){
         if (response.ok) {
             response.json().then(function (cords) {
-                getWeather(cords[0].lat, cords[0].lon);
+
+                if (cords[0].name !== localStorage.getItem('city')) {
+                    loadHistory();
+                    localStorage.setItem('city', cords[0].name);
+                    getWeather(cords[0].lat, cords[0].lon);
+                } else{
+                    getWeather(cords[0].lat, cords[0].lon);
+                }
             });
         } else {
             alert('Error: ' + response.statusText);
@@ -45,7 +71,6 @@ var getWeather = function(lat, lon) {
 
     var apiUrl = 
     "http://api.openweathermap.org/data/2.5/forecast?&lat=" + lat + "&lon=" + lon + "&units=imperial&appid=d5d879a5a7dac48b5c30575d2453e07b";
-
 
     fetch(apiUrl).then(function (response){
         if (response.ok) {
@@ -61,7 +86,9 @@ var getWeather = function(lat, lon) {
 
 var displayWeather = function(weather){
     //wipes previous search results
+
     currentDay.textContent = "";
+
    
     var currentWeather = weather.list[0];
     var currentTemp = currentWeather.main.temp;
@@ -149,5 +176,6 @@ var displayWeather = function(weather){
     }
 }
 
-
 searchButton.addEventListener('click', formSubmission);
+
+
