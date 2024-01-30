@@ -87,7 +87,7 @@ var getWeather = function(lat, lon) {
     var lon = lon;
     //5 day weather forecast api url with units in imperial
     var apiUrl = 
-    "http://api.openweathermap.org/data/2.5/forecast?&lat=" + lat + "&lon=" + lon + "&units=imperial&appid=d5d879a5a7dac48b5c30575d2453e07b";
+    "https://api.openweathermap.org/data/2.5/forecast?&lat=" + lat + "&lon=" + lon + "&units=imperial&appid=d5d879a5a7dac48b5c30575d2453e07b";
     //fetch call to get weather data and if/else statement checking if a positive response came back.
     fetch(apiUrl).then(function (response){
         if (response.ok) {
