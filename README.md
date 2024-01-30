@@ -5,6 +5,8 @@ An app that displays the weather forecast for the next 5 days. Allows the user t
 
 [5 Day Weather Forecast App: https://drewhermanson.github.io/5Day-Weather-Forecast/](https://drewhermanson.github.io/5Day-Weather-Forecast/)
 
+![Website-Example](assets/images/weatherexample.png)
+
 ## Usage
 This app can be used to find several useful weather information about any given city for the next 5 days. The app will then store previous searches in a side tab to allow easy history access.
 
