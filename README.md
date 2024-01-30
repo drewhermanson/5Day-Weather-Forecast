@@ -3,7 +3,7 @@
 ## Description
 An app that displays the weather forecast for the next 5 days. Allows the user the input any city name and converts the city name into the corresponding latitude and longitude.
 
-[5 Day Weather Forecast App: https://drewhermanson.github.io/5Day-Weather-Forecast/](https://drewhermanson.github.io/5Day-Weather-Forecast/)
+[5 Day Weather Forecast App](https://drewhermanson.github.io/5Day-Weather-Forecast/)
 
 ![Website-Example](assets/images/weatherexample.png)
 
