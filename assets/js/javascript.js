@@ -58,7 +58,7 @@ var formSubmission = function(event) {
 }
 //function that takes the name of a city and turns it into coordinates that the weather api can use
 var getGeoCode = function(city) {
-    var geoUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=d5d879a5a7dac48b5c30575d2453e07b";
+    var geoUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=d5d879a5a7dac48b5c30575d2453e07b";
    //fetch request from above url
     fetch(geoUrl).then(function (response){
         //if loop to check for a positive response from the fetch request
